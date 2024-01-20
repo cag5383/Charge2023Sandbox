@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 /**
@@ -21,20 +20,59 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
  */
 public final class Constants {
 
-    public static final class VisionConstants{
+    public static final class SubsystemConstants {
+        public static final boolean kUseDriveTrain = true;
+        public static final boolean kUseIntake = true;
+        public static final boolean kUseVision = false;
+        public static final boolean kUseLights = false;
+        public static final boolean kUseArm = false;
+    }
+
+    public static final class PortConstants {
+
+        //CAG: broken out by port type?
+
+        // Controller Ports
+        public static final int kDriverControllerPort = 0;
+        public static final int kOperatorControllerPort = 1;
+
+        // Drive Motor Ports
+        public static final int kLeftLeaderMotorPort = 1;
+        public static final int kLeftFollowerMotorPort = 2;
+        public static final int kRightLeaderMotorPort = 3;
+        public static final int kRightFollowerMotorPort = 4;
+
+        // Arm Ports
+        public static final int kMinLimitSwitchPort = 0;
+        public static final int kMaxLimitSwitchPort = 1;
+
+        public static final int kAngleMotorPort = 5;
+        public static final int kAngleMotorFollowerPort = 6;
+
+        // Intake Ports
+        public static final int kIntakeMotorPort = 7;
+        public static final int kIntakeMotorFollowerPort = 8;
+        public static final int kIntakeBeamBreakPort = 2;
+
+        //Shooter Ports
+
+    }
+
+    public static final class VisionConstants {
         public static final double klimelightHeight = 0;
         public static final double klimelightAngle = 0;
 
         public static final double kUpperTargetHeight = 104; // 8'8"
 
         public static final int kdefaultPipeline = 0;
-        
-        public static final double khorizontalRange = 1.5; // How far off from the crosshair the target can be to be centered on the x-axis
+
+        public static final double khorizontalRange = 1.5; // How far off from the crosshair the target can be to be
+                                                           // centered on the x-axis
 
         // Alignment constants for the limelight
         public static final double kShelfAlignY = -26.6;
         public static final double kChuteAlignY = -21.7;
-        public static final double kAutoAlignDistanceP = -.13; //test out this new P value for shelf align
+        public static final double kAutoAlignDistanceP = -.13; // test out this new P value for shelf align
         public static final double kAutoAlignDistanceI = 0.0;
         public static final double kAutoAlignDistanceD = 0.0;
         public static final double kAutoAlignAngleP = -0.005;
@@ -45,16 +83,18 @@ public final class Constants {
         public static final double kClamp = .2;
     }
 
+    public static final class IntakeConstants {
+        public static final double intakeMotorSpeed = .5;
+    }
+
+    public static final class ShooterConstants {
+
+    }
+
     public static final class DriveConstants {
         // Get Values For Everything:
-        // Drive ports, current limit, gear ratio, feedforward values, pid values (for both), navX Port, 
-
-        // Drive Motor Ports
-        public static final int kLeftLeaderMotorPort = 1;
-        public static final int kLeftFollowerMotorPort = 2;
-        public static final int kRightLeaderMotorPort = 3;
-        public static final int kRightFollowerMotorPort = 4;
-
+        // Drive ports, current limit, gear ratio, feedforward values, pid values (for
+        // both), navX Port,
 
         // Set If Drive Motors are Reversed
         public static final boolean kLeftLeaderMotorReversedDefault = true;
@@ -64,19 +104,17 @@ public final class Constants {
 
         public static final int kCurrentLimit = 0; // NEED TO SET
 
-
         // Encoder calculations
         public static final double kDriveWheelDiameterInches = 6.0;
-        public static final double kGear = 12; 
-        //Testbot Gear ratio- 10.75 : 1
-        //Real Robot Gear Ratio- 12 : 1
-    
-        
-        // Calculates the distace per pulse by dividing the circumference by the pulses per revolution
+        public static final double kGear = 12;
+        // Testbot Gear ratio- 10.75 : 1
+        // Real Robot Gear Ratio- 12 : 1
+
+        // Calculates the distace per pulse by dividing the circumference by the pulses
+        // per revolution
         public static final double kDriveDistancePerRev = Math.PI * kDriveWheelDiameterInches / kGear;
         // Encoders are in RPM so this converts to inches/sec
-        public static final double kDriveSpeedPerRev = kDriveDistancePerRev / 60.0; 
-
+        public static final double kDriveSpeedPerRev = kDriveDistancePerRev / 60.0;
 
         // Drive Distance Feedforward Values
         public static final double kLeftS = 0; // Position
@@ -94,54 +132,34 @@ public final class Constants {
 
         // Drive Distance Tolerance and Maximums in inches and seconds
         public static final double kPositionTolerance = 1.0; // Placeholder
-        public static final double kVelocityTolerance = 5.0; //Placeholder
+        public static final double kVelocityTolerance = 5.0; // Placeholder
 
-
-        //NavX Port
-        public static final int kNavXPort = 0; 
-
-        //Point Turn PID Values
+        // Point Turn PID Values
         public static final double kTurnP = .005;
         public static final double kTurnI = 0;
         public static final double kTurnD = 0;
 
-        //Point Turn Tolerances in degrees and seconds
-        public static final double kAngleTolerance = 1.0; //Placeholder
-        public static final double kTurnSpeedTolerance = 1.0; //Placeholder
+        // Point Turn Tolerances in degrees and seconds
+        public static final double kAngleTolerance = 1.0; // Placeholder
+        public static final double kTurnSpeedTolerance = 1.0; // Placeholder
 
         public static final double kTurnAngleToInches = (22.75 * Math.PI) / 360;
 
-
-        // Driver Controller Ports
-        public static final int kDriverControllerPort = 0;
-        public static final int kOperatorControllerPort = 1;
-
         public static final double kTurnSpeed = .25;
 
-        // Autonomous Drive Constants 
+        // Autonomous Drive Constants
         public static final int kDistanceToChargeStation = 65;
         public static final int KDistanceReturnChargeStation = 55;
         public static final int kDistanceOverChargeStation = 110;
-        public static final int kDistanceToLeaveCommunity = 110; //100
+        public static final int kDistanceToLeaveCommunity = 110; // 100
         public static final int kDistanceToSubstation = 30;
 
         // Slow Mode Multiplier
         public static final double kSlowModeMultiplier = 0.50;
 
     }
-    
-    public static final class ButtonBindingConstants {
-        public static final int kDriverControllerPort = 0;
-        public static final int kOperatorControllerPort = 1;
-    }
 
     public static final class ArmConstants {
-        // port numbers
-        // public static final int kExtensionMotorPort = 5;
-        public static final int kAngleMotorPort = 5;
-        public static final int kAngleMotorFollowerPort = 6;
-        public static final int kMinLimitSwitchPort = 0;
-        public static final int kMaxLimitSwitchPort = 1;
 
         // encoder
         public static final double kEncoderTicksPerRevolution = 4 * 131.7605438232422;
@@ -157,14 +175,14 @@ public final class Constants {
         public static final double kAngleMinMotorSpeed = 0.1;
         // grid constants
         public static final double kLowAngle = 0;
-        public static final double kMidConeAngle = 209; //215
+        public static final double kMidConeAngle = 209; // 215
         public static final double kMidCubeAngle = 209;
         public static final double kShelfAngle = 196;
         // charge station constants
         public static final double kChargingAngle = 0;
         // angle motor pid
         // public static final double kP = 0.00425;
-        public static final double kP = 0.02; //.04 originally
+        public static final double kP = 0.02; // .04 originally
         public static final double kI = 0;
         public static final double kD = 0;
 
@@ -175,35 +193,28 @@ public final class Constants {
     public static final int kPneumaticsHubCanId = 9;
 
     public static final class ClawConstants {
-    
-    public static final int kLeftRollerMotorPort = 7;
-    public static final int kRightRollerMotorPort = 8;
-    public static final double kLeftRollerMotorSpeed = 0.5;
-    public static final double kRightRollerMotorSpeed = 0.5;
-    public static final double kRollerMotorConeStopSpeed = 0.0;
-    public static final double kRollerMotorCubeStopSpeed = 0.0;
-    public static final double kRollerMotorStopSpeed = 0.0;
-    public static final double kRollerMotorspeed = 0.5;
-    public static final double kConeShootSpeed = 0.3;
-    public static final double kCubeShootSpeed = 0.3;
-    public static final double kStopSpeed = 0;
 
-   // public static final int kColorSensorPort = 0;
-    // public static final int kBeamBreakPort = 0;
-    public static final double kCubeCurrent = 0;
-    public static final double kConeCurrent = 0;
+        public static final double kLeftRollerMotorSpeed = 0.5;
+        public static final double kRightRollerMotorSpeed = 0.5;
+        public static final double kRollerMotorConeStopSpeed = 0.0;
+        public static final double kRollerMotorCubeStopSpeed = 0.0;
+        public static final double kRollerMotorStopSpeed = 0.0;
+        public static final double kRollerMotorspeed = 0.5;
+        public static final double kConeShootSpeed = 0.3;
+        public static final double kCubeShootSpeed = 0.3;
+        public static final double kStopSpeed = 0;
 
+        public static final double kCubeCurrent = 0;
+        public static final double kConeCurrent = 0;
 
+        // public static final int kLeftPistonExtendChannel = 1;
+        // public static final int kLeftPistonRetractChannel = 0;
+        public static final Value kLeftPistonExtendValue = Value.kForward;
+        public static final Value kLeftPistonRetractValue = Value.kReverse;
 
-
-    //public static final int kLeftPistonExtendChannel = 1;
-    //public static final int kLeftPistonRetractChannel = 0;
-    public static final Value kLeftPistonExtendValue = Value.kForward;
-    public static final Value kLeftPistonRetractValue = Value.kReverse;
-
-    public static final int kRightPistonExtendChannel = 0;
-    public static final int kRightPistonRetractChannel = 1;
-    public static final Value kRightPistonExtendValue = Value.kForward;
-    public static final Value kRightPistonRetractValue = Value.kReverse;
+        public static final int kRightPistonExtendChannel = 0;
+        public static final int kRightPistonRetractChannel = 1;
+        public static final Value kRightPistonExtendValue = Value.kForward;
+        public static final Value kRightPistonRetractValue = Value.kReverse;
     }
 }

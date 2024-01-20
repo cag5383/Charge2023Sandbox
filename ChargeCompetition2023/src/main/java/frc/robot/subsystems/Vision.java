@@ -13,8 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Vision extends SubsystemBase {
   
   private final NetworkTable m_limelightTable;
-
-  private final NetworkTableEntry m_targetDistance;
   private final NetworkTableEntry m_targetDetected;
 
   private double m_xOffset; // horizontal offset from crosshair to target (-27 degrees to 27 degrees)
@@ -32,7 +30,6 @@ public class Vision extends SubsystemBase {
     m_limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
     // Initialize the network table entries for target distance and target detected
-    m_targetDistance = m_limelightTable.getEntry("Target Distance");
     m_targetDetected = m_limelightTable.getEntry("Target Detected");
 
     // Instantiate the default double array

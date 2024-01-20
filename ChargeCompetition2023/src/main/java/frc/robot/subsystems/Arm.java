@@ -6,13 +6,14 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import static frc.robot.Constants.ArmConstants.*;
+import static frc.robot.Constants.ArmConstants;
+import static frc.robot.Constants.PortConstants;
 
 public class Arm extends SubsystemBase {
   
@@ -28,21 +29,14 @@ public class Arm extends SubsystemBase {
   /** Creates a new Arm 💪 */
   public Arm() {
 
-    angleMotor = new CANSparkMax(kAngleMotorPort, MotorType.kBrushless);
+    angleMotor = new CANSparkMax(PortConstants.kAngleMotorPort, MotorType.kBrushless);
     angleEncoder = angleMotor.getEncoder();
-
-    angleMotorFollower = new CANSparkMax(kAngleMotorFollowerPort, MotorType.kBrushless);
-
+    angleMotorFollower = new CANSparkMax(PortConstants.kAngleMotorFollowerPort, MotorType.kBrushless);
     angleMotorFollower.follow(angleMotor, true);
-
-    angleMotorPID = new double[]{kP,kI,kD};
-
-    minLimitSwitch = new DigitalInput(kMinLimitSwitchPort);
-    maxLimitSwitch = new DigitalInput(kMaxLimitSwitchPort);
-
-    angleEncoder.setPositionConversionFactor(360/kEncoderTicksPerRevolution);
-    
-
+    angleMotorPID = new double[]{ArmConstants.kP,ArmConstants.kI,ArmConstants.kD};
+    minLimitSwitch = new DigitalInput(PortConstants.kMinLimitSwitchPort);
+    maxLimitSwitch = new DigitalInput(PortConstants.kMaxLimitSwitchPort);
+    angleEncoder.setPositionConversionFactor(360/ArmConstants.kEncoderTicksPerRevolution);
     resetEncoders();
   }
   
@@ -72,10 +66,7 @@ public class Arm extends SubsystemBase {
   }
 
   public boolean getMinLimitSwitch() {
-    // return minLimitSwitch.get();
-    return false;
-    // return getArmAngle() > 220;
-
+    return minLimitSwitch.get();
   }
 
   public boolean getMaxLimitSwitch() {
@@ -91,7 +82,7 @@ public class Arm extends SubsystemBase {
   public void periodic() {
     // set the arm's angle to 0 when we hit the limit switch
     if (getMinLimitSwitch()) {
-      angleEncoder.setPosition(kMaxAngle);
+      angleEncoder.setPosition(ArmConstants.kMaxAngle);
     }
 
     if (getMaxLimitSwitch()) {
@@ -104,14 +95,5 @@ public class Arm extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Arm Angle (deg)", getArmAngle());
     SmartDashboard.putNumber("Arm Speed", getAngleMotorSpeed());
-    
-
-    // angleMotorPID[0] = SmartDashboard.getNumber("Arm Angle P", 0.0);
-    // angleMotorPID[1] = SmartDashboard.getNumber("Arm Angle I", 0.0);
-    // angleMotorPID[2] = SmartDashboard.getNumber("Arm Angle D", 0.0);
-
-    // SmartDashboard.putString("Angle PID In Use", Arrays.toString(angleMotorPID));
-
-
   }
 }

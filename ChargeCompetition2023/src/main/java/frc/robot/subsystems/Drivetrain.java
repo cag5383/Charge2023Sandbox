@@ -4,34 +4,15 @@
 
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.DriveConstants.kCurrentLimit;
-import static frc.robot.Constants.DriveConstants.kDriveDistancePerRev;
-import static frc.robot.Constants.DriveConstants.kDriveSpeedPerRev;
-import static frc.robot.Constants.DriveConstants.kLeftA;
-import static frc.robot.Constants.DriveConstants.kLeftFollowerMotorPort;
-import static frc.robot.Constants.DriveConstants.kLeftFollowerMotorReversedDefault;
-import static frc.robot.Constants.DriveConstants.kLeftLeaderMotorPort;
-import static frc.robot.Constants.DriveConstants.kLeftLeaderMotorReversedDefault;
-import static frc.robot.Constants.DriveConstants.kLeftS;
-import static frc.robot.Constants.DriveConstants.kLeftV;
-import static frc.robot.Constants.DriveConstants.kRightA;
-import static frc.robot.Constants.DriveConstants.kRightFollowerMotorPort;
-import static frc.robot.Constants.DriveConstants.kRightFollowerMotorReversedDefault;
-import static frc.robot.Constants.DriveConstants.kRightLeaderMotorPort;
-import static frc.robot.Constants.DriveConstants.kRightLeaderMotorReversedDefault;
-import static frc.robot.Constants.DriveConstants.kRightS;
-import static frc.robot.Constants.DriveConstants.kRightV;
+import static frc.robot.Constants.DriveConstants;
+import static frc.robot.Constants.PortConstants;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -52,15 +33,7 @@ public class Drivetrain extends SubsystemBase {
 
   private final DifferentialDrive m_drive;
 
-
-
-  private final SimpleMotorFeedforward m_leftFeedforward;
-  private final SimpleMotorFeedforward m_rightFeedforward;
-
-
-
-   private final ADIS16470_IMU m_imu;
-  private final DifferentialDriveKinematics m_kinematics;
+  //private final DifferentialDriveKinematics m_kinematics;
  private final SlewRateLimiter m_RampFilter;
 
  private boolean slowMode;
@@ -69,16 +42,16 @@ public class Drivetrain extends SubsystemBase {
   public Drivetrain() {
 
     // Set Motor Ports and Motor Type
-    m_leftLeaderMotor = new CANSparkMax(kLeftLeaderMotorPort, MotorType.kBrushless);
-    m_rightLeaderMotor = new CANSparkMax(kRightLeaderMotorPort, MotorType.kBrushless);
-    m_leftFollowerMotor = new CANSparkMax(kLeftFollowerMotorPort, MotorType.kBrushless);
-    m_rightFollowerMotor = new CANSparkMax(kRightFollowerMotorPort, MotorType.kBrushless);
+    m_leftLeaderMotor = new CANSparkMax(PortConstants.kLeftLeaderMotorPort, MotorType.kBrushless);
+    m_rightLeaderMotor = new CANSparkMax(PortConstants.kRightLeaderMotorPort, MotorType.kBrushless);
+    m_leftFollowerMotor = new CANSparkMax(PortConstants.kLeftFollowerMotorPort, MotorType.kBrushless);
+    m_rightFollowerMotor = new CANSparkMax(PortConstants.kRightFollowerMotorPort, MotorType.kBrushless);
 
     // Initialize Motors
-    motorInit(m_leftLeaderMotor, kLeftLeaderMotorReversedDefault);
-    motorInit(m_rightLeaderMotor, kRightLeaderMotorReversedDefault);
-    motorInit(m_leftFollowerMotor, kLeftFollowerMotorReversedDefault);
-    motorInit(m_rightFollowerMotor, kRightFollowerMotorReversedDefault);
+    motorInit(m_leftLeaderMotor, DriveConstants.kLeftLeaderMotorReversedDefault);
+    motorInit(m_rightLeaderMotor, DriveConstants.kRightLeaderMotorReversedDefault);
+    motorInit(m_leftFollowerMotor, DriveConstants.kLeftFollowerMotorReversedDefault);
+    motorInit(m_rightFollowerMotor, DriveConstants.kRightFollowerMotorReversedDefault);
 
     // Set Motor Followers
     m_leftFollowerMotor.follow(m_leftLeaderMotor);
@@ -94,19 +67,10 @@ public class Drivetrain extends SubsystemBase {
     slowMode = false;
 
     m_drive = new DifferentialDrive(m_leftLeaderMotor, m_rightLeaderMotor);
-
-    // Set The Feedforward Values
-    m_leftFeedforward = new SimpleMotorFeedforward(kLeftS, kLeftV, kLeftA);
-    m_rightFeedforward = new SimpleMotorFeedforward(kRightS, kRightV, kRightA);
-    
-
-
-    m_imu = new ADIS16470_IMU();
-    m_imu.calibrate();
- m_RampFilter = new SlewRateLimiter(0.8);
+    m_RampFilter = new SlewRateLimiter(0.8);
   
 
-    m_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));
+    //m_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));
   }
 
   @Override
@@ -115,12 +79,8 @@ public class Drivetrain extends SubsystemBase {
      SmartDashboard.putNumber("left drive encoder", m_leftEncoder.getPosition());
      SmartDashboard.putNumber("right drive encoder", m_rightEncoder.getPosition());
      SmartDashboard.putNumber("average distance", getAverageDistance());
-    // m_imu.setYawAxis(IMUAxis())
     // 3.14 is to compensate for the battery and the floor, might have to change that at a later time
-    SmartDashboard.putNumber("GyroYaw", getRobotAngle());
-    SmartDashboard.putNumber("GyroX", m_imu.getXComplementaryAngle() - 3.14);
     SmartDashboard.putBoolean("Slow Mode Enabled", isSlow());
-    SmartDashboard.putNumber("Pitch", m_imu.getYComplementaryAngle());
   
   }
 
@@ -128,16 +88,16 @@ public class Drivetrain extends SubsystemBase {
   private void motorInit(CANSparkMax motor, boolean invert) {
     motor.restoreFactoryDefaults(); 
     motor.setIdleMode(IdleMode.kBrake);
-    motor.setSmartCurrentLimit(kCurrentLimit);
+    motor.setSmartCurrentLimit(DriveConstants.kCurrentLimit);
     motor.setInverted(invert);
   }
 
   public void encoderInit() {
-    m_leftEncoder.setPositionConversionFactor(kDriveDistancePerRev);
-    m_leftEncoder.setVelocityConversionFactor(kDriveSpeedPerRev);
+    m_leftEncoder.setPositionConversionFactor(DriveConstants.kDriveDistancePerRev);
+    m_leftEncoder.setVelocityConversionFactor(DriveConstants.kDriveSpeedPerRev);
 
-    m_rightEncoder.setPositionConversionFactor(kDriveDistancePerRev);
-    m_rightEncoder.setVelocityConversionFactor(kDriveSpeedPerRev);
+    m_rightEncoder.setPositionConversionFactor(DriveConstants.kDriveDistancePerRev);
+    m_rightEncoder.setVelocityConversionFactor(DriveConstants.kDriveSpeedPerRev);
   }
   // Reset Encoder
   private void encoderReset(RelativeEncoder encoder){
@@ -228,25 +188,6 @@ public class Drivetrain extends SubsystemBase {
     m_drive.tankDrive(0, 0);
   }
   
-  public void resetGyro(){
-  
-    m_imu.reset();
-  
-  }
-  public void calibrategyro() {
-    m_imu.calibrate();
-  }
-
-  public double getRobotAngle(){
-    return m_imu.getAngle();
-  }
-
-  public double getRollangle(){
-    // return (m_imu.getXComplementaryAngle() * -1 );
-    return (m_imu.getYComplementaryAngle());
-
-  }
-
   // public void toggleSlowMode() {
   //   slowMode = !slowMode;
   // }
