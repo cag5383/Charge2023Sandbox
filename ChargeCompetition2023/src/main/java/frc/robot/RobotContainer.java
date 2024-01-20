@@ -5,14 +5,11 @@
 package frc.robot;
 
 import frc.robot.Constants.SubsystemConstants;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Lights;
-import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+/* 
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -21,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+*/
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -42,6 +40,7 @@ public class RobotContainer {
   private Intake m_intake;
   private Lights m_lights;
   private Vision m_vision;
+  private Shooter m_shooter;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -79,6 +78,9 @@ public class RobotContainer {
       m_vision = new Vision();
     }
 
+    if (SubsystemConstants.kUseShooter) {
+      m_shooter = new Shooter();
+    }
     return true;
   }
 

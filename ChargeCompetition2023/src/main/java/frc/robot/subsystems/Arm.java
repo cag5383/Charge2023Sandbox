@@ -16,7 +16,7 @@ import static frc.robot.Constants.ArmConstants;
 import static frc.robot.Constants.PortConstants;
 
 public class Arm extends SubsystemBase {
-  
+
   private CANSparkMax angleMotor;
   private CANSparkMax angleMotorFollower;
   private RelativeEncoder angleEncoder;
@@ -24,7 +24,7 @@ public class Arm extends SubsystemBase {
   private DigitalInput maxLimitSwitch;
 
   private double[] angleMotorPID;
-
+  private double setpoint;
 
   /** Creates a new Arm 💪 */
   public Arm() {
@@ -33,36 +33,34 @@ public class Arm extends SubsystemBase {
     angleEncoder = angleMotor.getEncoder();
     angleMotorFollower = new CANSparkMax(PortConstants.kAngleMotorFollowerPort, MotorType.kBrushless);
     angleMotorFollower.follow(angleMotor, true);
-    angleMotorPID = new double[]{ArmConstants.kP,ArmConstants.kI,ArmConstants.kD};
+    angleMotorPID = new double[] { ArmConstants.kP, ArmConstants.kI, ArmConstants.kD };
     minLimitSwitch = new DigitalInput(PortConstants.kMinLimitSwitchPort);
     maxLimitSwitch = new DigitalInput(PortConstants.kMaxLimitSwitchPort);
-    angleEncoder.setPositionConversionFactor(360/ArmConstants.kEncoderTicksPerRevolution);
     resetEncoders();
   }
-  
 
   public void setAngleMotorSpeed(double speed) {
     // run the motor that changes the angle of the arm
     angleMotor.set(speed);
   }
 
+  public void setArmAngle(double angle) {
+    setpoint = angle;
+    // CAG: Need a PID controller to get it to the right spot.
+  }
+
+  public boolean checkArmAngleDelta(){
+    double delta = Math.abs(angleMotor.get() - setpoint);
+    return (delta < ArmConstants.kArmAngleTolerance);
+  }
+
   public double getAngleMotorSpeed() {
     return angleMotor.get();
   }
 
-  // public double getStringPotDistance() {
-  //   // get the voltage read by the string potientometer in terms of distance
-  //   return stringPot.get();
-  // }
-
   public double getArmAngle() {
-    // 0 degree = touching rear switch
-    // 282 degrees (maximum) = touching front switch
+    // CAG: Why is this negative?
     return -angleEncoder.getPosition();
-  }
-
-  public double[] getAnglePID() {
-    return angleMotorPID;
   }
 
   public boolean getMinLimitSwitch() {
@@ -82,7 +80,7 @@ public class Arm extends SubsystemBase {
   public void periodic() {
     // set the arm's angle to 0 when we hit the limit switch
     if (getMinLimitSwitch()) {
-      angleEncoder.setPosition(ArmConstants.kMaxAngle);
+      // angleEncoder.setPosition(ArmConstants.kMaxAngle);
     }
 
     if (getMaxLimitSwitch()) {

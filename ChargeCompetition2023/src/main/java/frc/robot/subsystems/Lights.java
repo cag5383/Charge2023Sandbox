@@ -14,6 +14,8 @@ public class Lights extends SubsystemBase {
   /** Creates a new Lights. */
   public Lights() {
 
+    //CAG: Need to update this with lights from 2024 PreSeason
+
     m_blinkin = new Spark(9);
     m_blinkin.set(.93);
   }

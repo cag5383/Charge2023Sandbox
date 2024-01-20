@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends SubsystemBase {
 
+//CAG: Need to update this with swerve from 2024 competition repo
+
   /** Creates a new Drivetrain. */
 
   // Declare Motor Variables

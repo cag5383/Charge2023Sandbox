@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -26,6 +24,7 @@ public final class Constants {
         public static final boolean kUseVision = false;
         public static final boolean kUseLights = false;
         public static final boolean kUseArm = false;
+        public static final boolean kUseShooter = false;
     }
 
     public static final class PortConstants {
@@ -55,6 +54,8 @@ public final class Constants {
         public static final int kIntakeBeamBreakPort = 2;
 
         //Shooter Ports
+        public static final int kShooterMotorPort = 9;
+        public static final int kShooterMotorFollowerPort = 10;
 
     }
 
@@ -88,7 +89,8 @@ public final class Constants {
     }
 
     public static final class ShooterConstants {
-
+        public static final double kShooterSlowSpeed = 0.25; //CAG: Tails
+        public static final double kShooterFastSpeed = 0.80; //CAG: Sonic
     }
 
     public static final class DriveConstants {
@@ -161,25 +163,16 @@ public final class Constants {
 
     public static final class ArmConstants {
 
-        // encoder
-        public static final double kEncoderTicksPerRevolution = 4 * 131.7605438232422;
-
         // Arm Angle Tolerance
         public static final double kArmAngleTolerance = 2;
 
-        public static final double kArmLength = 34.5; // inches
-        public static final double kMaxAngle = 282;
-        // tbd
         public static final double kAngleMotorManualSpeed = 0.15;
         public static final double kAngleMaxMotorSpeed = 1.0;
         public static final double kAngleMinMotorSpeed = 0.1;
-        // grid constants
-        public static final double kLowAngle = 0;
-        public static final double kMidConeAngle = 209; // 215
-        public static final double kMidCubeAngle = 209;
-        public static final double kShelfAngle = 196;
-        // charge station constants
-        public static final double kChargingAngle = 0;
+
+        // target angle constants
+        public static final double kSpeakerAngle = 209;
+
         // angle motor pid
         // public static final double kP = 0.00425;
         public static final double kP = 0.02; // .04 originally
@@ -187,34 +180,6 @@ public final class Constants {
         public static final double kD = 0;
 
         public static final double kAutoArmReset = 0; // TEST 282 FOR QUICKER AUTO!!!!!
-        public static final double kAutoMidCubeAngle = 35;
     }
 
-    public static final int kPneumaticsHubCanId = 9;
-
-    public static final class ClawConstants {
-
-        public static final double kLeftRollerMotorSpeed = 0.5;
-        public static final double kRightRollerMotorSpeed = 0.5;
-        public static final double kRollerMotorConeStopSpeed = 0.0;
-        public static final double kRollerMotorCubeStopSpeed = 0.0;
-        public static final double kRollerMotorStopSpeed = 0.0;
-        public static final double kRollerMotorspeed = 0.5;
-        public static final double kConeShootSpeed = 0.3;
-        public static final double kCubeShootSpeed = 0.3;
-        public static final double kStopSpeed = 0;
-
-        public static final double kCubeCurrent = 0;
-        public static final double kConeCurrent = 0;
-
-        // public static final int kLeftPistonExtendChannel = 1;
-        // public static final int kLeftPistonRetractChannel = 0;
-        public static final Value kLeftPistonExtendValue = Value.kForward;
-        public static final Value kLeftPistonRetractValue = Value.kReverse;
-
-        public static final int kRightPistonExtendChannel = 0;
-        public static final int kRightPistonRetractChannel = 1;
-        public static final Value kRightPistonExtendValue = Value.kForward;
-        public static final Value kRightPistonRetractValue = Value.kReverse;
-    }
 }

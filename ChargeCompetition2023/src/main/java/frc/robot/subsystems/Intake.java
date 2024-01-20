@@ -44,15 +44,14 @@ public class Intake extends SubsystemBase {
     return true;
   }
 
+public void stopIntakeMotor(){
+      intakeMotor.set(0);
+}
+
   @Override
   public void periodic() {
     // set the arm's angle to 0 when we hit the limit switch
-
-    if (getBeamBreak()) {
-      intakeMotor.set(0);
-      // CAG: Set lights to Orange
-    }
-
     SmartDashboard.putBoolean("Has Note", getBeamBreak());
+    //set lights orange.
   }
 }
