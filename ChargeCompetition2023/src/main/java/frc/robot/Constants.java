@@ -29,7 +29,7 @@ public final class Constants {
 
     public static final class PortConstants {
 
-        //CAG: broken out by port type?
+        // CAG: broken out by port type?
 
         // Controller Ports
         public static final int kDriverControllerPort = 0;
@@ -53,7 +53,7 @@ public final class Constants {
         public static final int kIntakeMotorFollowerPort = 8;
         public static final int kIntakeBeamBreakPort = 2;
 
-        //Shooter Ports
+        // Shooter Ports
         public static final int kShooterMotorPort = 9;
         public static final int kShooterMotorFollowerPort = 10;
 
@@ -89,8 +89,16 @@ public final class Constants {
     }
 
     public static final class ShooterConstants {
-        public static final double kShooterSlowSpeed = 0.25; //CAG: Tails
-        public static final double kShooterFastSpeed = 0.80; //CAG: Sonic
+        public static final double kShooterSlowSpeed = 0.25; // CAG: Tails
+        public static final double kShooterFastSpeed = 0.80; // CAG: Sonic
+        public static final double maxRPMLimit = 1000; // CAG: Maximum RPM for the shooter motors
+        public static final boolean AmTuningPID = true; // make true for when iteratively tuning PID parameters for shuffleboard.
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kFF = 0;
+        public static final double maxRPM = 0;
+        public static final double minRPM = 0;
     }
 
     public static final class DriveConstants {

@@ -40,7 +40,7 @@ public class RobotContainer {
   private Intake m_intake;
   private Lights m_lights;
   private Vision m_vision;
-  private Shooter m_shooter;
+  private Shooter m_shooter;  
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
